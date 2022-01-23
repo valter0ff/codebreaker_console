@@ -1,0 +1,6 @@
+db/db.yml
+/coverage/
+/spec/reports/
+
+# rspec failure tracking
+.rspec_status
