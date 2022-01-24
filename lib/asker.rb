@@ -9,7 +9,7 @@ class Asker
   def ask_intro
     ask_wrapper(I18n.t('possible_commands')) do |input|
       case input
-      when I18n.t('commands.stats') then show_statistics
+      when I18n.t('commands.stats') then Statistics.new.show_statistics
       when I18n.t('commands.rules') then out_message(I18n.t('rules_of_game'))
       when I18n.t('commands.start') then console.start_game
       else out_message(I18n.t('messages.error_command'))
@@ -87,9 +87,5 @@ class Asker
 
     out_message(I18n.t('messages.goodbye'))
     exit
-  end
-
-  def show_statistics
-    raise NotImplementedError
   end
 end
