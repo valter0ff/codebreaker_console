@@ -3,7 +3,7 @@ class Router
 
   def initialize
     @state = State.new
-    @asker = :asker_class_instance #Asker.new(@state)
+    @asker = :asker_class_instance # Asker.new(@state)
   end
 
   def call
