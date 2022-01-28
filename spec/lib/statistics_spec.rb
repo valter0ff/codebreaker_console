@@ -16,9 +16,12 @@ RSpec.describe Statistics do
 
   describe '#show_statistics' do
     context 'when database file not found' do
-      it 'returns message about absence of statistics' do
+      before do
         stats.instance_variable_set(:@data, nil)
         allow($stdout).to receive(:puts)
+      end
+
+      it 'returns message about absence of statistics' do
         expect($stdout).to receive(:puts).with(I18n.t('messages.no_rating'))
         stats.show_statistics
       end

@@ -45,9 +45,13 @@ RSpec.describe Asker do
     context 'when got command "stats"' do
       include_context 'with provided input' do
         let(:command) { I18n.t('commands.stats') }
+        let(:stats) { double }
       end
       it 'calls #show_statistics from Statistics class' do
-        expect { asker.ask_intro }.to raise_error(NotImplementedError)
+        allow(Statistics).to receive(:new).and_return(stats)
+        allow(stats).to receive(:show_statistics)
+        expect(stats).to receive(:show_statistics)
+        asker.ask_intro
       end
     end
 
