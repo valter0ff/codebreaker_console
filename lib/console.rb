@@ -1,6 +1,5 @@
 class Console
-  # include DatabaseLoader
-  PLUSES = '++++'.freeze
+  WIN_RESULT = '++++'.freeze
   attr_reader :state, :game
 
   def initialize(state)
@@ -19,20 +18,16 @@ class Console
   end
 
   def save_result
-    # store_to_file(game.player)
     out_message(I18n.t('messages.result_saved'))
     state.change_step(:game_over)
   end
 
   def check_guess
     check = game.check_user_guess
-    if check == PLUSES
-      user_win
-    elsif game.no_more_attempts?
-      user_lose(check)
-    else
-      out_message I18n.t('messages.result_of_guess', result: check)
-    end
+    return user_win if check == WIN_RESULT
+    return user_lose(check) if game.no_more_attempts?
+
+    out_message(I18n.t('messages.result_of_guess', result: check))
   end
 
   private
@@ -44,15 +39,15 @@ class Console
 
   def user_win
     puts I18n.t('messages.win')
-    out_message I18n.t('messages.secret_code', code: game.secret_code.join)
+    out_message(I18n.t('messages.secret_code', code: game.secret_code.join))
     state.change_stage(:ended)
     state.change_step(:user_win)
   end
 
   def user_lose(check)
-    out_message I18n.t('messages.result_of_guess', result: check)
+    out_message(I18n.t('messages.result_of_guess', result: check))
     puts I18n.t('messages.lose')
-    out_message I18n.t('messages.secret_code', code: game.secret_code.join)
+    out_message(I18n.t('messages.secret_code', code: game.secret_code.join))
     state.change_stage(:ended)
     state.change_step(:game_over)
   end

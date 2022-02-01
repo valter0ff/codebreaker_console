@@ -11,21 +11,27 @@ RSpec.describe Console do
   end
 
   describe '#take_hint' do
+    let(:hint) { double }
+
+    before do
+      allow(console.game).to receive(:hint_present?).and_return(hint_result)
+      allow(console.game).to receive(:give_hint).and_return(hint)
+    end
+
     context 'when hint present' do
+      let(:hint_result) { true }
+
       it 'calls #out_message with message from game.give_hint' do
-        is_hint = double
-        allow(console.game).to receive(:hint_present?).and_return(true)
-        allow(console.game).to receive(:give_hint).and_return(is_hint)
-        expect(console).to receive(:out_message).with(is_hint)
+        expect(console).to receive(:out_message).with(hint)
         console.take_hint
       end
     end
 
     context 'when hint is not present' do
       let(:message) { I18n.t('messages.no_more_hints') }
+      let(:hint_result) { false }
 
       it 'calls #out_message with message about no hints' do
-        allow(console.game).to receive(:hint_present?).and_return(false)
         expect(console).to receive(:out_message).with(message)
         console.take_hint
       end
@@ -37,12 +43,6 @@ RSpec.describe Console do
 
     let(:player_object) { console.game.player }
     let(:message) { I18n.t('messages.result_saved') }
-
-    #     it 'calls #store_to_file with player object' do
-    #       allow(console).to receive(:out_message).with(message)
-    #       expect(console).to receive(:store_to_file).with(player_object)
-    #       console.save_result
-    #     end
 
     it 'calls #out_message with message result saved' do
       expect(console).to receive(:out_message).with(message)
