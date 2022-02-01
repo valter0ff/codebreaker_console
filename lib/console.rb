@@ -1,4 +1,6 @@
 class Console
+  include DatabaseLoader
+
   WIN_RESULT = '++++'.freeze
   attr_reader :state, :game
 

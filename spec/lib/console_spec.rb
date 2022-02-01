@@ -89,7 +89,7 @@ RSpec.describe Console do
 
     context 'when user guess is invalid' do
       let(:message) { I18n.t('messages.result_of_guess', result: check) }
-      let(:input) { console.game.secret_code.shuffle.join }
+      let(:input) { console.game.secret_code.map { |n| n < 6 ? n + 1 : n }.join }
       let(:check) { console.game.check_user_guess }
 
       it 'puts message to console' do
